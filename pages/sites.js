@@ -13,7 +13,7 @@ import UpgradeEmptyState from '@/components/UpgradeEmptyState';
 const Dashboard = () => {
   const { user } = useAuth();
   const { data } = useSWR(user ? ['/api/sites', user.token] : null, fetcher);
-  // const isPaidAccount = user?.stripeRole !== 'free';
+  const isPaidAccount = user?.stripeRole !== 'free';
   const isPaidAccount = true;
 
   if (!data) {
