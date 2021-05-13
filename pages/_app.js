@@ -1,16 +1,27 @@
+import { useEffect } from 'react';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
+import { Global, css } from '@emotion/core';
+import { MDXProvider } from '@mdx-js/react';
+import { DefaultSeo } from 'next-seo';
 import Head from 'next/head';
-import { ChakraProvider, CSSReset } from '@chakra-ui/react';
-import { Global, css } from '@emotion/react';
+import Router from 'next/router';
+import * as Fathom from 'fathom-client';
 
-import { AuthProvider } from '@/libs/auth';
+import MDXComponents from '@/components/MDXComponents';
+import { AuthProvider } from '@/lib/auth';
 import customTheme from '@/styles/theme';
+
+import SEO from '../next-seo.config';
+
+Router.events.on('routeChangeComplete', () => {
+  Fathom.trackPageview();
+});
 
 const GlobalStyle = ({ children }) => {
   return (
     <>
       <Head>
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <title>Fast Feedback Demo</title>
       </Head>
       <CSSReset />
       <Global
@@ -30,15 +41,26 @@ const GlobalStyle = ({ children }) => {
   );
 };
 
-function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      Fathom.load(process.env.NEXT_PUBLIC_FATHOM_SITE_ID, {
+        includedDomains: ['fastfeedback-eight-orcin.vercel.app']
+      });
+    }
+  }, []);
+
   return (
-    <ChakraProvider theme={customTheme}>
+    <ThemeProvider theme={customTheme}>
       <AuthProvider>
-        <GlobalStyle />
-        <Component {...pageProps} />
+        <MDXProvider components={MDXComponents}>
+          <DefaultSeo {...SEO} />
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </MDXProvider>
       </AuthProvider>
-    </ChakraProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

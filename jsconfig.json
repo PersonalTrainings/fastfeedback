@@ -5,11 +5,14 @@
       "@/components/*": [
         "components/*"
       ],
-      "@/libs/*": [
-        "libs/*"
+      "@/lib/*": [
+        "lib/*"
       ],
       "@/styles/*": [
         "styles/*"
+      ],
+      "@/utils/*": [
+        "utils/*"
       ]
     }
   }
