@@ -11,6 +11,7 @@ const FeedbackTable = (props) => {
         <thead>
           <Tr>
             <Th minW="150px">Name</Th>
+            <Th minW="150px">Site</Th>
             <Th>Feedback</Th>
             <Th>Route</Th>
             <Th>Visible</Th>

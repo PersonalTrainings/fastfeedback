@@ -7,7 +7,7 @@ import { useAuth } from '@/lib/auth';
 import { updateFeedback } from '@/lib/db';
 import DeleteFeedbackButton from './DeleteFeedbackButton';
 
-const FeedbackRow = ({ id, author, text, route, status }) => {
+const FeedbackRow = ({ id, author, siteName, text, route, status }) => {
   const auth = useAuth();
   const isChecked = status === 'active';
 
@@ -19,6 +19,7 @@ const FeedbackRow = ({ id, author, text, route, status }) => {
   return (
     <Box as="tr" key={id}>
       <Td fontWeight="medium">{author}</Td>
+      <Td>{siteName}</Td>
       <Td>{text}</Td>
       <Td>
         <Code
